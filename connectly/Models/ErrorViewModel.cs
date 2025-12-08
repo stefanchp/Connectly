@@ -1,4 +1,4 @@
-namespace init.Models;
+namespace connectly.Models;
 
 public class ErrorViewModel
 {
