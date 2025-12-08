@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-connectly-0e8a2a66-b37e-436b-b80c-a922c0ba23bb</UserSecretsId>
+    <UserSecretsId>aspnet-connectly-bfc9e426-fffa-405c-a69f-db486490a975</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
