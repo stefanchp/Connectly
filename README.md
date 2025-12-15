@@ -38,8 +38,6 @@ Seeded accounts (for testing):
 
 ## Database Diagram
 
-## Database Diagram
-
 ```mermaid
 erDiagram
     AspNetUsers {
