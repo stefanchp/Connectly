@@ -37,6 +37,8 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 
+// Enable authentication middleware before authorization so identity cookies are read
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
