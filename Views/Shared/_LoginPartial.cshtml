@@ -11,6 +11,7 @@
             Hello @User.Identity?.Name!
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" asp-area="" asp-controller="Profiles" asp-action="My">My profile</a></li>
             <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Account settings</a></li>
             <li><hr class="dropdown-divider" /></li>
             <li>

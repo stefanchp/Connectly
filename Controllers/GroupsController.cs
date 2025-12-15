@@ -146,6 +146,7 @@ public class GroupsController : Controller
                     Id = m.Id,
                     UserId = m.UserId,
                     AuthorName = users.TryGetValue(m.UserId, out var u) ? u.FullName : m.UserId,
+                    Title = m.Title,
                     Content = m.Content,
                     CreatedAt = m.CreatedAt
                 })
@@ -260,14 +261,14 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PostMessage(int groupId, string content)
+    public async Task<IActionResult> PostMessage(int groupId, string title, string content)
     {
         var userId = _userManager.GetUserId(User);
         if (userId == null) return Challenge();
 
-        if (string.IsNullOrWhiteSpace(content))
+        if (string.IsNullOrWhiteSpace(content) || string.IsNullOrWhiteSpace(title))
         {
-            TempData["GroupMessage"] = "Message cannot be empty.";
+            TempData["GroupMessage"] = "Title and content are required.";
             return RedirectToAction(nameof(Details), new { id = groupId });
         }
 
@@ -278,6 +279,7 @@ public class GroupsController : Controller
         {
             GroupId = groupId,
             UserId = userId,
+            Title = title.Trim(),
             Content = content.Trim(),
             CreatedAt = DateTime.UtcNow
         });
@@ -303,7 +305,7 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditMessage(int id, string content)
+    public async Task<IActionResult> EditMessage(int id, string title, string content)
     {
         var userId = _userManager.GetUserId(User);
         if (userId == null) return Challenge();
@@ -315,12 +317,13 @@ public class GroupsController : Controller
         var isMod = membership?.Role == GroupRole.Moderator && membership.Status == GroupMemberStatus.Accepted;
         if (message.UserId != userId && !isMod) return Forbid();
 
-        if (string.IsNullOrWhiteSpace(content))
+        if (string.IsNullOrWhiteSpace(content) || string.IsNullOrWhiteSpace(title))
         {
-            TempData["GroupMessage"] = "Message cannot be empty.";
+            TempData["GroupMessage"] = "Title and content are required.";
             return RedirectToAction(nameof(Details), new { id = message.GroupId });
         }
 
+        message.Title = title.Trim();
         message.Content = content.Trim();
         await _context.SaveChangesAsync();
         TempData["GroupMessage"] = "Message updated.";

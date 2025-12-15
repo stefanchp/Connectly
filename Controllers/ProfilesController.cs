@@ -86,6 +86,27 @@ public class ProfilesController : Controller
         return View(vm);
     }
 
+    public async Task<IActionResult> My()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return Challenge();
+
+        var vm = new ProfileDetailViewModel
+        {
+            Id = user.Id,
+            FullName = user.FullName,
+            Bio = user.Bio,
+            ProfileImageUrl = user.ProfileImageUrl,
+            IsPrivate = user.IsPrivate,
+            CanViewFull = true,
+            IsSelf = true,
+            IsFollowingAccepted = true,
+            HasPendingRequest = false
+        };
+
+        return View(vm);
+    }
+
     public async Task<IActionResult> Edit()
     {
         var user = await _userManager.GetUserAsync(User);

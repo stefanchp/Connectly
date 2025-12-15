@@ -24,7 +24,7 @@
     </div>
 </div>
 
-@if (Model.CanViewFull)
+@if (Model.IsSelf)
 {
     <div class="mt-3">
         <a asp-action="Edit" class="btn btn-primary">Edit profile</a>

@@ -99,6 +99,9 @@
         <form asp-action="PostMessage" method="post" class="mb-3">
             <input type="hidden" name="groupId" value="@Model.Id" />
             <div class="mb-2">
+                <input name="title" class="form-control" placeholder="Add a short title..." />
+            </div>
+            <div class="mb-2">
                 <textarea name="content" class="form-control" rows="2" placeholder="Share something with the group..."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-sm">Post</button>
@@ -131,6 +134,7 @@
                             </div>
                         }
                     </div>
+                    <div class="fw-semibold">@m.Title</div>
                     <p class="mb-1 clamp-3">@m.Content</p>
                     <details>
                         <summary class="text-muted small">Open full message</summary>

@@ -141,7 +141,7 @@ public static class SeedData
                 },
                 Messages = new List<GroupMessage>
                 {
-                    new GroupMessage { UserId = adminId, Content = "Welcome to the club! Drop your favorite trail." }
+                    new GroupMessage { UserId = adminId, Title = "Welcome", Content = "Welcome to the club! Drop your favorite trail." }
                 }
             };
 
@@ -158,7 +158,7 @@ public static class SeedData
                 },
                 Messages = new List<GroupMessage>
                 {
-                    new GroupMessage { UserId = mariaId, Content = "New challenge: urban reflections." }
+                    new GroupMessage { UserId = mariaId, Title = "Weekly challenge", Content = "New challenge: urban reflections." }
                 }
             };
 
@@ -175,7 +175,7 @@ public static class SeedData
                 },
                 Messages = new List<GroupMessage>
                 {
-                    new GroupMessage { UserId = andreiId, Content = "Who's trying .NET 9 already?" }
+                    new GroupMessage { UserId = andreiId, Title = ".NET 9?", Content = "Who's trying .NET 9 already?" }
                 }
             };
 
