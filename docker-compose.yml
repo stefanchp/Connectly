@@ -12,5 +12,17 @@ services:
     volumes:
       - db_data:/var/opt/mssql
 
+  connectly:
+    container_name: connectly_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080" 
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Initial Catalog=ConnectlyDB;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True
+
 volumes:
   db_data:
