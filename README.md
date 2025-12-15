@@ -3,33 +3,40 @@
 >[!warning]
 > Still in development.
 
-## Setup 
+## Local setup (fresh clone)
 
-Clone the repo 
-
-```
-git clone https://github.com/stefanchp/Connectly.git && cd Connectly
-```
-
-Create the docker container and run the configuration. 
-
-```
-docker compose up -d
+1) Clone and enter the repo  
+```bash
+git clone https://github.com/stefanchp/Connectly.git
+cd Connectly
 ```
 
-Setup an `.env` file:
-
+2) Configure environment  
+```bash
+cp .env.example .env   # set DB_PASSWORD inside
 ```
-cp .env.example .env
+
+3) Start SQL Server in Docker  
+```bash
+docker compose up -d db
 ```
 
-And then setup a `DB_PASSWORD` in `.env` and connect with a connection string in `appsettings.Development.json`.
-
-To update the database run:
-
-```
+4) Apply migrations (creates the schema and seeds users/groups)  
+```bash
 dotnet ef database update
 ```
+
+5) Run the app  
+```bash
+dotnet run
+```
+
+Seeded accounts (for testing):
+- admin@test.com / Admin1! (Admin)
+- maria@example.com / User1!
+- andrei@example.com / User2!
+
+## Database Diagram
 
 ## Database Diagram
 
