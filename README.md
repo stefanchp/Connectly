@@ -24,3 +24,9 @@ cp .env.example .env
 ```
 
 And then setup a `DB_PASSWORD` in `.env` and connect with a connection string in `appsettings.Development.json`.
+
+To update the database run:
+
+```
+dotnet ef database update
+```
