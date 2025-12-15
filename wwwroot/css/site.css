@@ -22,7 +22,6 @@ body {
   background: var(--c-paper);
   color: var(--c-ink);
   line-height: 1.6;
-  min-height: 100vh;
 }
 
 a {
@@ -49,6 +48,16 @@ header {
   color: var(--c-ink);
 }
 
+.navbar .dropdown-menu {
+  border-radius: 10px;
+  border: 1px solid rgba(116, 140, 171, 0.35);
+  box-shadow: 0 8px 20px rgba(13, 19, 33, 0.06);
+}
+
+.navbar .btn-link {
+  color: var(--c-navy);
+}
+
 .navbar-nav .nav-link {
   color: var(--c-ink);
   padding: 0.35rem 0.75rem;
@@ -63,7 +72,12 @@ header {
   width: 100%;
   max-width: 760px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 2.5rem;
+  padding: 1.5rem 1.25rem 5rem;
+}
+
+main {
+  width: 100%;
+  display: block;
 }
 
 h1, h2, h3, h4, h5 {
@@ -181,6 +195,44 @@ input:focus {
   margin-bottom: 1rem;
 }
 
+.page-heading .actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.hero {
+  background: #fffdf7;
+  border: 1px solid rgba(116, 140, 171, 0.35);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+  margin-bottom: 0.4rem;
+}
+
+.hero p {
+  margin-bottom: 0;
+  color: var(--c-slate);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(116, 140, 171, 0.16);
+  color: var(--c-ink);
+  font-size: 0.9rem;
+}
+
 .field-validation-error {
   color: var(--c-navy);
   font-size: 0.95rem;
@@ -198,8 +250,57 @@ input:focus {
   text-align: left;
 }
 
-.footer {
-  border-top: 1px solid rgba(116, 140, 171, 0.4);
-  background: var(--c-paper);
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.group-card h5 {
+  margin-bottom: 0.35rem;
+}
+
+.message-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.message-card {
+  border: 1px solid rgba(116, 140, 171, 0.35);
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fffdf7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.message-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.message-meta .author {
+  font-weight: 600;
+}
+
+.message-meta .timestamp {
   color: var(--c-slate);
+  font-size: 0.9rem;
 }

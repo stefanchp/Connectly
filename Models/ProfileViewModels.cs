@@ -25,6 +25,9 @@ public class ProfileDetailViewModel
     public string ProfileImageUrl { get; set; } = string.Empty;
     public bool IsPrivate { get; set; }
     public bool CanViewFull { get; set; }
+    public bool IsSelf { get; set; }
+    public bool IsFollowingAccepted { get; set; }
+    public bool HasPendingRequest { get; set; }
 }
 
 public class ProfileEditViewModel

@@ -30,3 +30,19 @@
         <a asp-action="Edit" class="btn btn-primary">Edit profile</a>
     </div>
 }
+else if (!Model.IsSelf)
+{
+    <div class="mt-3 d-flex gap-2">
+        @if (Model.HasPendingRequest)
+        {
+            <div class="alert alert-info mb-0">Follow request pending.</div>
+        }
+        else
+        {
+            <form asp-controller="Follows" asp-action="Send" method="post">
+                <input type="hidden" name="toUserId" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary">Request to follow</button>
+            </form>
+        }
+    </div>
+}

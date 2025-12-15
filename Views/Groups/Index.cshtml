@@ -1,0 +1,44 @@
+@model IEnumerable<GroupListItemViewModel>
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div>
+        <h2>Groups</h2>
+        <p class="text-muted mb-0">Join communities and chat with members.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Create group</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="app-card mt-3">
+        <p class="mb-0 text-muted">No groups yet. Be the first to create one.</p>
+    </div>
+}
+else
+{
+    <div class="group-grid">
+    @foreach (var g in Model)
+    {
+        <div class="app-card group-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                    <h5 class="mb-1">@g.Name</h5>
+                    <div class="text-muted small">@g.MemberCount member(s)</div>
+                </div>
+                @if (!string.IsNullOrEmpty(g.MembershipStatus))
+                {
+                    <span class="chip">@g.MembershipStatus</span>
+                }
+            </div>
+            <p class="mb-3">@g.Description</p>
+            <div class="d-flex gap-2">
+                <a asp-action="Details" asp-route-id="@g.Id" class="btn btn-primary btn-sm">Open</a>
+                <a asp-action="Details" asp-route-id="@g.Id" class="btn btn-outline-primary btn-sm">View</a>
+            </div>
+        </div>
+    }
+    </div>
+}

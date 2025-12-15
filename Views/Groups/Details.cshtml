@@ -1,0 +1,144 @@
+@model GroupDetailsViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-heading">
+    <h2>@Model.Name</h2>
+    <p class="text-muted mb-1">@Model.Description</p>
+    <p class="text-muted small mb-0">Created by @Model.CreatedByName on @Model.CreatedAt.ToLocalTime().ToString("d")</p>
+</div>
+
+@if (TempData["GroupMessage"] is string gmsg)
+{
+    <div class="alert alert-info mb-3">@gmsg</div>
+}
+
+<div class="d-flex gap-2 mb-3">
+    @if (Model.IsMember)
+    {
+        <form asp-action="Leave" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn btn-outline-primary btn-sm" type="submit">Leave group</button>
+        </form>
+    }
+    else if (Model.MembershipStatus == null)
+    {
+        <form asp-action="Join" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn btn-primary btn-sm" type="submit">Request to join</button>
+        </form>
+    }
+    else if (Model.MembershipStatus == GroupMemberStatus.Pending)
+    {
+        <div class="badge-private">Join request pending</div>
+    }
+
+    @if (Model.IsModerator)
+    {
+        <form asp-action="DeleteGroup" method="post" onsubmit="return confirm('Delete this group?');">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn btn-outline-primary btn-sm" type="submit">Delete group</button>
+        </form>
+    }
+</div>
+
+<div class="stack">
+    <div class="app-card">
+        <h5 class="mb-2">Members (@Model.Members.Count)</h5>
+        @if (!Model.Members.Any())
+        {
+            <p class="text-muted mb-0">No members yet.</p>
+        }
+        else
+        {
+            <ul class="list-unstyled mb-0">
+            @foreach (var m in Model.Members)
+            {
+                <li class="mb-2">
+                    <div class="fw-semibold">@m.FullName</div>
+                    <div class="text-muted small">@m.Role</div>
+                </li>
+            }
+            </ul>
+        }
+    </div>
+
+    @if (Model.IsModerator && Model.PendingMembers.Any())
+    {
+        <div class="app-card">
+            <h5 class="mb-2">Pending requests</h5>
+            @foreach (var p in Model.PendingMembers)
+            {
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div>@p.FullName</div>
+                    <div class="d-flex gap-2">
+                        <form asp-action="ApproveMember" method="post">
+                            <input type="hidden" name="id" value="@p.Id" />
+                            <button class="btn btn-primary btn-sm" type="submit">Approve</button>
+                        </form>
+                        <form asp-action="RejectMember" method="post">
+                            <input type="hidden" name="id" value="@p.Id" />
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Decline</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<div class="app-card">
+    <h5 class="mb-3">Messages</h5>
+    @if (!Model.IsMember)
+    {
+        <p class="text-muted mb-0">Join the group to see and post messages.</p>
+    }
+    else
+    {
+        <form asp-action="PostMessage" method="post" class="mb-3">
+            <input type="hidden" name="groupId" value="@Model.Id" />
+            <div class="mb-2">
+                <textarea name="content" class="form-control" rows="2" placeholder="Share something with the group..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Post</button>
+        </form>
+
+        @if (!Model.Messages.Any())
+        {
+            <p class="text-muted mb-0">No messages yet. Start the conversation.</p>
+        }
+        else
+        {
+            <div class="message-grid">
+            @foreach (var m in Model.Messages)
+            {
+                var canEdit = Model.IsModerator || m.UserId == Model.CurrentUserId;
+                <div class="message-card">
+                    <div class="message-meta">
+                        <div>
+                            <div class="author">@m.AuthorName</div>
+                            <div class="timestamp">@m.CreatedAt.ToLocalTime().ToString("g")</div>
+                        </div>
+                        @if (canEdit)
+                        {
+                            <div class="message-actions">
+                                <form asp-action="DeleteMessage" method="post">
+                                    <input type="hidden" name="id" value="@m.Id" />
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Delete</button>
+                                </form>
+                                <a asp-action="EditMessage" asp-route-id="@m.Id" class="btn btn-outline-primary btn-sm">Edit</a>
+                            </div>
+                        }
+                    </div>
+                    <p class="mb-1 clamp-3">@m.Content</p>
+                    <details>
+                        <summary class="text-muted small">Open full message</summary>
+                        <p class="mb-0">@m.Content</p>
+                    </details>
+                </div>
+            }
+            </div>
+        }
+    }
+</div>

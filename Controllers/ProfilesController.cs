@@ -54,7 +54,21 @@ public class ProfilesController : Controller
         if (profile == null) return NotFound();
 
         var currentUserId = _userManager.GetUserId(User);
-        var canViewFull = !profile.IsPrivate || (currentUserId != null && currentUserId == profile.Id);
+        var isSelf = currentUserId != null && currentUserId == profile.Id;
+
+        var hasAcceptedFollow = false;
+        var hasPending = false;
+        if (currentUserId != null && !isSelf)
+        {
+            var follow = await _context.FollowRequests
+                .AsNoTracking()
+                .FirstOrDefaultAsync(f => f.FromUserId == currentUserId && f.ToUserId == profile.Id);
+
+            hasAcceptedFollow = follow?.Status == FollowRequestStatus.Accepted;
+            hasPending = follow?.Status == FollowRequestStatus.Pending;
+        }
+
+        var canViewFull = !profile.IsPrivate || isSelf || hasAcceptedFollow;
 
         var vm = new ProfileDetailViewModel
         {
@@ -63,7 +77,10 @@ public class ProfilesController : Controller
             Bio = profile.Bio,
             ProfileImageUrl = profile.ProfileImageUrl,
             IsPrivate = profile.IsPrivate,
-            CanViewFull = canViewFull
+            CanViewFull = canViewFull,
+            IsSelf = isSelf,
+            IsFollowingAccepted = hasAcceptedFollow,
+            HasPendingRequest = hasPending
         };
 
         return View(vm);

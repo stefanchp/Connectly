@@ -1,0 +1,107 @@
+@model FollowDashboardViewModel
+@{
+    ViewData["Title"] = "Connections";
+    string UserLabel(string id) => Model.Users.TryGetValue(id, out var u) ? u.FullName : id;
+}
+
+<div class="page-heading">
+    <h2>Connections</h2>
+    <p class="text-muted">Manage followers and follow requests.</p>
+</div>
+
+@if (TempData["FollowMessage"] is string msg)
+{
+    <div class="alert alert-info mb-3">@msg</div>
+}
+
+<div class="app-card mb-3">
+    <h5 class="mb-2">Incoming requests</h5>
+    @if (!Model.IncomingPending.Any())
+    {
+        <p class="text-muted mb-0">No pending requests.</p>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-2">
+        @foreach (var r in Model.IncomingPending)
+        {
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <div>@UserLabel(r.FromUserId)</div>
+                    <div class="text-muted small">requested @r.CreatedAt.ToLocalTime().ToString("g")</div>
+                </div>
+                <div class="d-flex gap-2">
+                    <form asp-action="Accept" method="post">
+                        <input type="hidden" name="id" value="@r.Id" />
+                        <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+                    </form>
+                    <form asp-action="Reject" method="post">
+                        <input type="hidden" name="id" value="@r.Id" />
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Reject</button>
+                    </form>
+                </div>
+            </div>
+        }
+        </div>
+    }
+</div>
+
+<div class="app-card mb-3">
+    <h5 class="mb-2">Following</h5>
+    @if (!Model.Following.Any())
+    {
+        <p class="text-muted mb-0">You are not following anyone yet.</p>
+    }
+    else
+    {
+        <ul class="list-unstyled mb-0">
+        @foreach (var r in Model.Following)
+        {
+            <li class="mb-2">
+                <div class="fw-semibold">@UserLabel(r.ToUserId)</div>
+                <div class="text-muted small">since @r.CreatedAt.ToLocalTime().ToString("d")</div>
+            </li>
+        }
+        </ul>
+    }
+</div>
+
+<div class="app-card mb-3">
+    <h5 class="mb-2">Followers</h5>
+    @if (!Model.Followers.Any())
+    {
+        <p class="text-muted mb-0">No followers yet.</p>
+    }
+    else
+    {
+        <ul class="list-unstyled mb-0">
+        @foreach (var r in Model.Followers)
+        {
+            <li class="mb-2">
+                <div class="fw-semibold">@UserLabel(r.FromUserId)</div>
+                <div class="text-muted small">since @r.CreatedAt.ToLocalTime().ToString("d")</div>
+            </li>
+        }
+        </ul>
+    }
+</div>
+
+<div class="app-card">
+    <h5 class="mb-2">Outgoing requests</h5>
+    @if (!Model.OutgoingPending.Any())
+    {
+        <p class="text-muted mb-0">You have no pending outgoing requests.</p>
+    }
+    else
+    {
+        <ul class="list-unstyled mb-0">
+        @foreach (var r in Model.OutgoingPending)
+        {
+            <li class="mb-2">
+                <div class="fw-semibold">@UserLabel(r.ToUserId)</div>
+                <div class="text-muted small">sent @r.CreatedAt.ToLocalTime().ToString("g")</div>
+            </li>
+        }
+        </ul>
+    }
+</div>

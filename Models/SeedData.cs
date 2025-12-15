@@ -16,6 +16,7 @@ public static class SeedData
 
         SeedRoles(context);
         SeedUsers(context);
+        SeedGroups(context);
 
         context.SaveChanges();
     }
@@ -115,6 +116,70 @@ public static class SeedData
         {
             var exists = context.UserRoles.Any(x => x.UserId == ur.UserId && x.RoleId == ur.RoleId);
             if (!exists) context.UserRoles.Add(ur);
+        }
+    }
+
+    private static void SeedGroups(ApplicationDbContext context)
+    {
+        if (!context.Groups.Any())
+        {
+            var adminId = "8e445865-a24d-4543-a6c6-9443d048cdb0";
+            var mariaId = "1d3f0c9a-85fa-4b4d-8f9e-111111111111";
+            var andreiId = "2d3f0c9a-85fa-4b4d-8f9e-222222222222";
+
+            var hikers = new Group
+            {
+                Name = "Hikers Club",
+                Description = "Weekend trails and gear tips.",
+                CreatedById = adminId,
+                CreatedAt = DateTime.UtcNow,
+                Members = new List<GroupMember>
+                {
+                    new GroupMember { UserId = adminId, Role = GroupRole.Moderator, Status = GroupMemberStatus.Accepted },
+                    new GroupMember { UserId = andreiId, Role = GroupRole.Member, Status = GroupMemberStatus.Accepted },
+                    new GroupMember { UserId = mariaId, Role = GroupRole.Member, Status = GroupMemberStatus.Pending }
+                },
+                Messages = new List<GroupMessage>
+                {
+                    new GroupMessage { UserId = adminId, Content = "Welcome to the club! Drop your favorite trail." }
+                }
+            };
+
+            var photo = new Group
+            {
+                Name = "Photo Circle",
+                Description = "Share your best shots and feedback.",
+                CreatedById = mariaId,
+                CreatedAt = DateTime.UtcNow,
+                Members = new List<GroupMember>
+                {
+                    new GroupMember { UserId = mariaId, Role = GroupRole.Moderator, Status = GroupMemberStatus.Accepted },
+                    new GroupMember { UserId = adminId, Role = GroupRole.Member, Status = GroupMemberStatus.Accepted }
+                },
+                Messages = new List<GroupMessage>
+                {
+                    new GroupMessage { UserId = mariaId, Content = "New challenge: urban reflections." }
+                }
+            };
+
+            var tech = new Group
+            {
+                Name = "Tech Talk",
+                Description = "Casual chat about dev news.",
+                CreatedById = andreiId,
+                CreatedAt = DateTime.UtcNow,
+                Members = new List<GroupMember>
+                {
+                    new GroupMember { UserId = andreiId, Role = GroupRole.Moderator, Status = GroupMemberStatus.Accepted },
+                    new GroupMember { UserId = adminId, Role = GroupRole.Member, Status = GroupMemberStatus.Accepted }
+                },
+                Messages = new List<GroupMessage>
+                {
+                    new GroupMessage { UserId = andreiId, Content = "Who's trying .NET 9 already?" }
+                }
+            };
+
+            context.Groups.AddRange(hikers, photo, tech);
         }
     }
 }
