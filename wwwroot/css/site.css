@@ -1,31 +1,205 @@
+:root {
+  --c-ink: #0d1321;
+  --c-navy: #1d2d44;
+  --c-slate: #3e5c76;
+  --c-mist: #748cab;
+  --c-paper: #f0ebd8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+  font-size: 16px;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+a {
+  color: var(--c-navy);
+  text-decoration: none;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+header {
+  background: var(--c-paper);
+  border-bottom: 1px solid rgba(116, 140, 171, 0.4);
+}
+
+.navbar {
+  padding: 0.75rem 0;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.navbar-nav .nav-link {
+  color: var(--c-ink);
+  padding: 0.35rem 0.75rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus-visible {
+  color: var(--c-navy);
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0 0 0.75rem;
+  color: var(--c-ink);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--c-slate);
+}
+
+.app-card {
+  background: #fffdf7;
+  border: 1px solid rgba(116, 140, 171, 0.35);
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(13, 19, 33, 0.03);
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.btn-primary {
+  background: var(--c-navy);
+  border-color: var(--c-navy);
+  color: var(--c-paper);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: #23395a;
+  border-color: #23395a;
+  color: var(--c-paper);
+}
+
+.btn-outline-primary {
+  border-color: var(--c-navy);
+  color: var(--c-navy);
+  background: transparent;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus-visible {
+  background: rgba(29, 45, 68, 0.08);
+  color: var(--c-navy);
+}
+
+.form-control,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"] {
+  background: #fffdf7;
+  border: 1px solid rgba(116, 140, 171, 0.6);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  color: var(--c-ink);
+}
+
+.form-control:focus,
+textarea:focus,
+input:focus {
+  outline: 2px solid rgba(62, 92, 118, 0.35);
+  border-color: var(--c-navy);
+  box-shadow: none;
+}
+
+.text-muted {
+  color: var(--c-slate) !important;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.profile-card {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.profile-card img {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid rgba(116, 140, 171, 0.4);
+}
+
+.badge-private {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(62, 92, 118, 0.12);
+  color: var(--c-navy);
+  font-size: 0.85rem;
+}
+
+.alert-info {
+  background: rgba(62, 92, 118, 0.08);
+  border: 1px solid rgba(116, 140, 171, 0.5);
+  color: var(--c-ink);
+}
+
+.page-heading {
+  margin-bottom: 1rem;
+}
+
+.field-validation-error {
+  color: var(--c-navy);
+  font-size: 0.95rem;
+}
+
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.app-table th,
+.app-table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(116, 140, 171, 0.25);
+  text-align: left;
+}
+
+.footer {
+  border-top: 1px solid rgba(116, 140, 171, 0.4);
+  background: var(--c-paper);
+  color: var(--c-slate);
 }

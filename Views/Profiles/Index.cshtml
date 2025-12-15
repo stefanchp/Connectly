@@ -1,0 +1,40 @@
+@model ProfilesIndexViewModel
+@{
+    ViewData["Title"] = "Profiles";
+}
+
+<div class="page-heading">
+    <h2>Profiles</h2>
+    <p class="text-muted">Search and discover people on the platform.</p>
+</div>
+
+<div class="app-card mb-3">
+    <form method="get" class="d-flex gap-2 align-items-center">
+        <input type="text" class="form-control" name="query" value="@Model.Query" placeholder="Search by name..." />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
+
+@if (!Model.Profiles.Any())
+{
+    <div class="app-card">
+        <p class="mb-0 text-muted">No profiles found. Try a different name.</p>
+    </div>
+}
+else
+{
+    <div class="profile-grid">
+    @foreach (var profile in Model.Profiles)
+    {
+        <div class="app-card profile-card">
+            <img src="@profile.ProfileImageUrl" alt="Profile picture" />
+            <div>
+                <h5 class="mb-1">@profile.FullName</h5>
+                <div class="text-muted small mb-2">@(profile.IsPrivate ? "Private" : "Public") profile</div>
+                <p class="mb-2">@profile.Bio</p>
+                <a asp-action="Details" asp-route-id="@profile.Id" class="btn btn-outline-primary btn-sm">View profile</a>
+            </div>
+        </div>
+    }
+    </div>
+}

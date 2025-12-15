@@ -1,0 +1,32 @@
+@model ProfileDetailViewModel
+@{
+    ViewData["Title"] = "Profile";
+    var limited = Model.IsPrivate && !Model.CanViewFull;
+}
+
+<div class="app-card d-flex gap-3">
+    <div>
+        <img src="@Model.ProfileImageUrl" alt="Profile picture" class="rounded-circle" style="width:96px;height:96px;object-fit:cover;border:1px solid rgba(116,140,171,0.35);" />
+    </div>
+    <div>
+        <h3 class="mb-1">@Model.FullName</h3>
+        <div class="text-muted mb-2">@(Model.IsPrivate ? "Private" : "Public") profile</div>
+
+        @if (limited)
+        {
+            <p>@Model.Bio</p>
+            <div class="alert alert-info mb-0">This profile is private. Sign in as the owner to view full details.</div>
+        }
+        else
+        {
+            <p>@Model.Bio</p>
+        }
+    </div>
+</div>
+
+@if (Model.CanViewFull)
+{
+    <div class="mt-3">
+        <a asp-action="Edit" class="btn btn-primary">Edit profile</a>
+    </div>
+}
